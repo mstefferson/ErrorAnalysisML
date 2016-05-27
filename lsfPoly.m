@@ -60,5 +60,6 @@ sig_coeff = sqrt( diag(err) );
 
 fitobj.coeff     = coeff';
 fitobj.sig_coeff = sig_coeff';
+fitobj.covarmat  = err;
 
 gof = 0;
