@@ -70,12 +70,14 @@ if nargin == 3
 end
 
 % Calculate errors assuming all errors are equal- scatter of points
+if nargin == 2
 sig2_guess = 1 / ( N - 2 ) .* sum( ( a0 + a1 .* x - y ) .^ 2 );
 aveXw  = sum(x) / N;
 xprime = x - aveXw ;
 
 sig2_a1_sp = sig2_guess  ./ sum( xprime .^ 2 ) ;
 sig2_a0_sp = sig2_guess / N + aveXw .^ 2 * sig2_a1_sp ;
+end
 
 % Put it in a struct
 
@@ -83,24 +85,9 @@ sig2_a0_sp = sig2_guess / N + aveXw .^ 2 * sig2_a1_sp ;
 fitobj.Coeff      = [a0 a1];
 if nargin == 3;
   fitobj.StdErrProp = sqrt( [ sig2_a0_ep sig2_a1_ep ] );
+else
+  fitobj.StdScattPnts = sqrt( [ sig2_a0_sp  sig2_a1_sp ] );
 end
-fitobj.StdScattPnts = sqrt( [ sig2_a0_sp  sig2_a1_sp ] );
-
-%% a0
-%fitobj.a0 = a0;
-%if nargin == 3; 
-  %fitobj.sig_a0_ep = fitobj.StdErrProp(1);
-  %fitobj.sig_a0p_ep = sqrt( sig2_a0p_ep );
-%end
-  %fitobj.sig_a0_sp = fitobj.StdScattPnts(1); 
-  %fitobj.sig_a0p_sp = sqrt( sig2_guess / N );
-
-%% a1  
-%fitobj.a1 = a1;
-%if nargin == 3; 
-  %fitobj.sig_a1_ep = fitobj.StdErrProp(2);
-%end
-  %fitobj.sig_a1_sp = fitobj.StdScattPnts(2); 
 
 % Residual and other gof measures
 gof.res      = sum( ( y - (a1 * x  + a0) )  .^ 2 ); 
