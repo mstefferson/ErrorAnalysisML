@@ -70,8 +70,8 @@ if nargin == 3
 end
 
 % Calculate errors assuming all errors are equal- scatter of points
-if nargin == 2
 sig2_guess = 1 / ( N - 2 ) .* sum( ( a0 + a1 .* x - y ) .^ 2 );
+if nargin == 2
 aveXw  = sum(x) / N;
 xprime = x - aveXw ;
 
